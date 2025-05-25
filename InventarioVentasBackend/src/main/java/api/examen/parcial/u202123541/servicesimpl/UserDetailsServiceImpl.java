@@ -18,12 +18,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByUsername(username)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         return new org.springframework.security.core.userdetails.User(
-                usuario.getUsername(),
+                usuario.getEmail(),
                 usuario.getPassword(),
                 usuario.getRoles().stream()
                         .map(rol -> new SimpleGrantedAuthority(rol.getNombre()))
@@ -31,7 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         );
     }
 
-    public boolean existsByUsername(String username) {
-        return usuarioRepository.existsByUsername(username);
+    public boolean existsByEmail(String email) {
+
+        return usuarioRepository.existsByEmail(email);
     }
 }

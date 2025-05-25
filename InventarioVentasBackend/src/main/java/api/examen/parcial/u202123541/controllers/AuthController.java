@@ -17,13 +17,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -49,11 +48,15 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(
+                            authRequest.getEmail(),
+                            authRequest.getPassword()
+                    )
             );
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
-            String token = jwtUtil.generateToken(userDetails.getUsername());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
+
+            String token = jwtUtil.generateToken(userDetails);
 
             return ResponseEntity.ok(new AuthResponse(token));
         } catch (BadCredentialsException e) {
@@ -66,7 +69,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
-        if (userDetailsService.existsByUsername(registerRequest.getUsername())) {
+        if (userDetailsService.existsByEmail(registerRequest.getEmail())) {
             return ResponseEntity.badRequest().body("El nombre de usuario ya existe.");
         }
 
@@ -85,6 +88,6 @@ public class AuthController {
 
         usuarioRepository.save(usuario);
 
-        return ResponseEntity.ok("Usuario registrado correctamente.");
+        return ResponseEntity.ok(Map.of("mensaje", "Usuario registrado correctamente."));
     }
 }
