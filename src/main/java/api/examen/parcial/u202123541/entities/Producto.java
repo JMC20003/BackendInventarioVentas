@@ -1,0 +1,31 @@
+package api.examen.parcial.u202123541.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+
+@Data
+@Entity
+@Table(name="producto")
+public class Producto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String nombre;
+    private double precio;
+    private Integer stock;
+    private String categoria;
+    private String imagen;
+
+    @OneToMany(mappedBy = "producto")
+    @JsonIgnore
+    private Set<DetalleVentaProducto> detallesVenta;
+
+    @OneToMany(mappedBy = "producto")
+    @JsonIgnore
+    private List<DetalleCarrito> detallesCarrito;  // Relación con los detalles del carrito
+}

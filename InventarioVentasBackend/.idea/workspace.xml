@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="76b371a7-10be-4a00-9dff-6ed125d9f7e8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HELP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/BackendApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/controllers/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/controllers/PagoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/controllers/ProductoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/controllers/VentaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/AuthRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/AuthResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/DetalleVentaProductoDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/PagoDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/RegistroVentaDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/dtos/VentaDetalleDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/Carrito.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/DetalleCarrito.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/DetalleVentaProducto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/DetalleVentaProductoId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/Pago.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/Producto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/Rol.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/entities/Venta.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/exceptions/IncompleteDataException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/exceptions/KeyRepeatedDataException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/exceptions/ResourceNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/DetalleVentaProductoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/PagoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/ProductoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/RolRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/UsuarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/repositories/VentaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/security/JwtRequestFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/security/JwtUtilService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/security/SecurityConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/services/DetalleVentaProductoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/services/PagoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/services/ProductoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/services/UsuarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/services/VentaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/servicesimpl/DetalleVentaProductoServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/servicesimpl/PagoServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/servicesimpl/ProductoServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/servicesimpl/UserDetailsServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/servicesimpl/UsuarioServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/examen/parcial/u202123541/servicesimpl/VentaServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pe/com/petstore/backend/BackendApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/backend-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/backend-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/BackendApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/controllers/AuthController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/controllers/PagoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/controllers/ProductoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/controllers/VentaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/AuthRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/AuthResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/DetalleVentaProductoDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/PagoDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/RegisterRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/RegistroVentaDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/dtos/VentaDetalleDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/Carrito.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/DetalleCarrito.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/DetalleVentaProducto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/DetalleVentaProductoId.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/Pago.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/Producto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/Rol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/Usuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/entities/Venta.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/exceptions/IncompleteDataException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/exceptions/KeyRepeatedDataException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/exceptions/ResourceNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/DetalleVentaProductoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/PagoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/ProductoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/RolRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/UsuarioRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/repositories/VentaRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/security/JwtRequestFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/security/JwtUtilService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/security/SecurityConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/services/DetalleVentaProductoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/services/PagoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/services/ProductoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/services/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/services/UsuarioService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/services/VentaService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/servicesimpl/DetalleVentaProductoServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/servicesimpl/PagoServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/servicesimpl/ProductoServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/servicesimpl/UserDetailsServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/servicesimpl/UsuarioServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/examen/parcial/u202123541/servicesimpl/VentaServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/pe/com/petstore/backend/BackendApplicationTests.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2xZ4Kf0MDHJKC4haWL6pc4z3fY5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.BackendApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/u2021/OneDrive/Documents/GitHub/BackendInventarioVentas",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="BackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="api.examen.parcial.u202123541.BackendApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="76b371a7-10be-4a00-9dff-6ed125d9f7e8" name="Changes" comment="" />
+      <created>1748132198264</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748132198264</updated>
+      <workItem from="1748132199295" duration="18450000" />
+      <workItem from="1748208718274" duration="5319000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
