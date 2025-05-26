@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "https://backendinventarioventas.onrender.com")
 @RestController
 @RequestMapping("/api/pagos")
 public class PagoController {

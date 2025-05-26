@@ -20,7 +20,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://backendinventarioventas.onrender.com")
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
