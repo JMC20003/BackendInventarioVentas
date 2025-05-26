@@ -19,6 +19,7 @@ public class Producto {
     private double precio;
     private Integer stock;
     private String categoria;
+    private String descripcion;
     private String imagen;
 
     @OneToMany(mappedBy = "producto")

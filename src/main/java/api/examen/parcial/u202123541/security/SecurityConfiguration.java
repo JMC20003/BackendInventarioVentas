@@ -127,10 +127,10 @@ public class SecurityConfiguration {
                         new AntPathRequestMatcher("/auth/register")
                 ).permitAll()
 
-                // Permitir GET a usuarios con ROLE_USER o ROLE_ADMIN
+                // Permitir GET a todos
                 .requestMatchers(
                         new AntPathRequestMatcher("/api/**", "GET")
-                ).hasAnyRole("USER", "ADMIN")
+                ).permitAll()
 
                 // Acceso total a todas las rutas para ROLE_ADMIN
                 .requestMatchers(
