@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class Producto {
     private Integer id;
 
     private String nombre;
-    private double precio;
+    private BigDecimal precio;
     private Integer stock;
     private String categoria;
     private String descripcion;

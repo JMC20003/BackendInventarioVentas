@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "https://proyecto5-e5bb9.web.app")
+@CrossOrigin(origins = {"https://proyecto5-e5bb9.web.app","http://localhost:4200"})
 @RestController
 @RequestMapping("/api/ventas")
 public class VentaController {
@@ -20,9 +20,9 @@ public class VentaController {
 
     // Obtener todas las ventas
     @GetMapping("/listar")
-    public ResponseEntity<List<Venta>> obtenerVentas() {
-        List<Venta> ventas = ventaServicio.getAllVentas();
-        return ResponseEntity.ok(ventas);
+    public ResponseEntity<List<VentaDetalleDTO>> obtenerVentas() {
+        List<VentaDetalleDTO> ventasDetalle = ventaServicio.getAllVentasDetalle(); // Llama al nuevo método
+        return ResponseEntity.ok(ventasDetalle);
     }
 
     // Obtener una venta por su ID
@@ -41,18 +41,18 @@ public class VentaController {
 
     // Crear una nueva venta
     @PostMapping("/registrar")
-    public ResponseEntity<Venta> crearVenta(@RequestBody Venta venta) {
-        Venta ventaCreada = ventaServicio.save(venta);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ventaCreada);
+    public ResponseEntity<VentaDetalleDTO> registrarVenta(@RequestBody RegistroVentaDTO ventaDTO) {
+        try {
+            Venta nuevaVenta = ventaServicio.save(ventaDTO);
+            // Mapea la entidad Venta a tu DTO de respuesta
+            VentaDetalleDTO responseDTO = new VentaDetalleDTO(nuevaVenta);
+            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            // Manejo de errores más robusto aquí
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    // Crear una nueva venta con DTO
-    @PostMapping("/registrarDTO")
-    public ResponseEntity<RegistroVentaDTO> registrarVenta(@RequestBody RegistroVentaDTO dto) {
-        // Llamamos al servicio para registrar la venta completa (venta, detalles y pago)
-        RegistroVentaDTO resultado = ventaServicio.registrarVentaCompleta(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(resultado);
-    }
 
     @GetMapping("/ListarDTO/{id}")
     public ResponseEntity<VentaDetalleDTO> obtenerVentaDetallePorId(@PathVariable Long id) {

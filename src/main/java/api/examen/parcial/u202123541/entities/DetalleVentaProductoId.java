@@ -1,14 +1,22 @@
 package api.examen.parcial.u202123541.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode // ESENCIAL
+@NoArgsConstructor // ESENCIAL para JPA
 public class DetalleVentaProductoId implements Serializable {
 
-    private int ventaId;
-    private int productoId;
+    private Long ventaId;
+    private Integer productoId;
+
+    public DetalleVentaProductoId(Long ventaId, Integer productoId) {
+        this.ventaId = ventaId;
+        this.productoId = productoId;
+    }
 }

@@ -8,9 +8,10 @@ import java.util.List;
 
 public interface VentaService {
     List<Venta> getAllVentas();
-    Venta save(Venta venta);
+    Venta save(RegistroVentaDTO ventaDTO);
     void deleteById(Long id);
     RegistroVentaDTO registrarVentaCompleta(RegistroVentaDTO registro);
+    List<VentaDetalleDTO> getAllVentasDetalle();
     VentaDetalleDTO obtenerVentaDetallePorId(Long id);
     Venta obtenerVentaPorId(Long id);
 }

@@ -1,16 +1,48 @@
 package api.examen.parcial.u202123541.dtos;
 
 
+import api.examen.parcial.u202123541.entities.Venta;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class VentaDetalleDTO {
-    private Long id;  // Cambié 'id' para hacerla consistente con las convenciones de tipos de datos
+    private Long id;
     private LocalDateTime fechaVenta;
-    private String usuarioNombre;
-    private List<DetalleVentaProductoDTO> detalles;
-    private List<PagoDTO> pagos;
+    private String nombreUsuario; // Campo para el nombre del usuario
+    private List<DetalleVentaProductoResponseDTO> productosVendidos; // Lista de DTOs de los detalles
+
+    // Constructor vacío (puede ser necesario para la deserialización en algunos casos, si no lo usas, opcional)
+    public VentaDetalleDTO() {
+    }
+
+    // ¡¡¡ESTE ES EL CONSTRUCTOR QUE NECESITAS AÑADIR O CORREGIR!!!
+    public VentaDetalleDTO(Venta venta) {
+        this.id = venta.getId();
+        this.fechaVenta = venta.getFechaVenta();
+
+        if (venta.getUsuario() != null) {
+            this.nombreUsuario = venta.getUsuario().getNombre();
+        } else {
+            this.nombreUsuario = "N/A"; // O algún valor por defecto si el usuario es nulo
+        }
+
+        // Aquí mapeas los detalles de la entidad a tu DTO de respuesta para los detalles
+        if (venta.getDetallesVenta() != null) {
+            this.productosVendidos = venta.getDetallesVenta().stream()
+                    .map(DetalleVentaProductoResponseDTO::new) // Asegúrate que este sea el DTO correcto para los detalles de respuesta
+                    .collect(Collectors.toList());
+        } else {
+            this.productosVendidos = List.of(); // Lista vacía si no hay detalles
+        }
+    }
 }

@@ -12,15 +12,16 @@ public class DetalleVentaProducto {
     @EmbeddedId
     private DetalleVentaProductoId id;
 
+    private int cantidad;
     @ManyToOne
     @MapsId("ventaId")
     @JoinColumn(name = "Venta_id")
     private Venta venta;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "carrito_id")
-    private Carrito carrito;
+//    @ManyToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "carrito_id")
+//    private Carrito carrito;
 
     @ManyToOne
     @JsonIgnore
@@ -28,8 +29,8 @@ public class DetalleVentaProducto {
     @JoinColumn(name = "Producto_id")
     private Producto producto;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "Usuario_id")
-    private Usuario usuario;
+//    @JsonIgnore
+//    @ManyToOne
+//    @JoinColumn(name = "Usuario_id")
+//    private Usuario usuario;
 }

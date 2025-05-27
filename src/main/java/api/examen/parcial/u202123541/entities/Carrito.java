@@ -17,6 +17,6 @@ public class Carrito {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetalleVentaProducto> detalles = new ArrayList<>();
+//    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<DetalleVentaProducto> detalles = new ArrayList<>();
 }

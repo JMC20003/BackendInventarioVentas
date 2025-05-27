@@ -1,16 +1,15 @@
 package api.examen.parcial.u202123541.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
 @Entity
-@Table(name = "Usuario")
+@Getter
+@Setter
+// Asegúrate de que SOLO tengas esto, sin @EqualsAndHashCode.Include/@Exclude en los campos
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +38,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private Set<Venta> ventas;
 
-    @JsonIgnore
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToMany(mappedBy = "usuario")
-    private Set<DetalleVentaProducto> detallesVenta;
+//    @JsonIgnore
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    @OneToMany(mappedBy = "usuario")
+//    private Set<DetalleVentaProducto> detallesVenta;
 }
