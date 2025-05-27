@@ -13,9 +13,9 @@ import java.io.Serializable;
 public class DetalleVentaProductoId implements Serializable {
 
     private Long ventaId;
-    private Integer productoId;
+    private Long productoId;
 
-    public DetalleVentaProductoId(Long ventaId, Integer productoId) {
+    public DetalleVentaProductoId(Long ventaId, Long productoId) {
         this.ventaId = ventaId;
         this.productoId = productoId;
     }

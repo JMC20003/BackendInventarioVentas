@@ -39,20 +39,35 @@ public class VentaController {
         return ResponseEntity.noContent().build();
     }
 
-    // Crear una nueva venta
     @PostMapping("/registrar")
     public ResponseEntity<VentaDetalleDTO> registrarVenta(@RequestBody RegistroVentaDTO ventaDTO) {
         try {
             Venta nuevaVenta = ventaServicio.save(ventaDTO);
-            // Mapea la entidad Venta a tu DTO de respuesta
             VentaDetalleDTO responseDTO = new VentaDetalleDTO(nuevaVenta);
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            // Manejo de errores más robusto aquí
+            // ¡¡¡CAMBIO AQUÍ!!!
+            System.err.println("**************************************************");
+            System.err.println("¡¡¡ERROR CAPTURADO EN VentaController!!!: " + e.getMessage());
+            e.printStackTrace(); // Esto imprimirá la traza de pila completa
+            System.err.println("**************************************************");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
+    // Nuevo endpoint para probar el guardado simple
+    @GetMapping("/registrar/simple/{usuarioId}")
+    public ResponseEntity<VentaDetalleDTO> registrarVentaSimple(@PathVariable Long usuarioId) {
+        try {
+            Venta nuevaVenta = ventaServicio.saveSimpleVenta(usuarioId);
+            // Mapea la entidad Venta a tu DTO de respuesta
+            VentaDetalleDTO responseDTO = new VentaDetalleDTO(nuevaVenta);
+            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            System.err.println("Error al registrar venta simple: " + e.getMessage()); // Log simple si no hay logger
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/ListarDTO/{id}")
     public ResponseEntity<VentaDetalleDTO> obtenerVentaDetallePorId(@PathVariable Long id) {

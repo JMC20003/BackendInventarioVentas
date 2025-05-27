@@ -14,7 +14,7 @@ import java.util.Set;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String nombre;
     private BigDecimal precio;
