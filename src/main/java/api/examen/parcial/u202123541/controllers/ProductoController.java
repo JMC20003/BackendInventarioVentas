@@ -85,4 +85,6 @@ public class ProductoController {
     public ResponseEntity<List<ProductoCardDTO>> obtenerCards() {
         return ResponseEntity.ok(productoService.obtenerCards());
     }
+
+
 }

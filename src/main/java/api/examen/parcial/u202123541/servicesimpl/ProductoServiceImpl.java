@@ -57,7 +57,12 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setTalla(dto.getTalla());
         producto.setCategoria(dto.getCategoria());
         producto.setDescripcion(dto.getDescripcion());
-        producto.setImagen(dto.getImagen());
+        // --- ¡AQUÍ ES DONDE TRANSFORMAMOS LA URL DE GOOGLE DRIVE! ---
+        //String driveLink = dto.getImagen(); // Obtén el link de Drive del DTO
+        //String directImageUrl = transformGoogleDriveLink(driveLink); // Transfórmalo
+        //POR AHORA VAMOS A DEJAR CON IMAGEN DE POOSIM
+        producto.setImagen(dto.getImagen()); // Asigna la URL DIRECTA al producto antes de guardar
+        // -------------------------------------------------------------
         producto.setPrecio(dto.getPrecio());
 
         // Sumamos stock si ya existía, si no, lo seteamos
@@ -71,7 +76,29 @@ public class ProductoServiceImpl implements ProductoService {
         // 1.2 Construir y devolver card agregada por nombre
         return construirCardPorNombre(dto.getNombre());
     }
+    private String transformGoogleDriveLink(String driveLink) {
+        if (driveLink == null || driveLink.isEmpty()) {
+            return null; // O una URL de imagen por defecto, según tu lógica
+        }
 
+        // Patrón para extraer el ID del archivo de Google Drive
+        // Este patrón busca la parte /file/d/ID_ARCHIVO/view
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("file/d/([a-zA-Z0-9_-]+)/view");
+        java.util.regex.Matcher matcher = pattern.matcher(driveLink);
+
+        if (matcher.find()) {
+            String fileId = matcher.group(1);
+            // ¡CAMBIO AQUÍ! Usaremos el formato para miniaturas/exportación de Google Drive.
+            // Este formato es más fiable para mostrar imágenes directamente en HTML.
+            return "https://drive.google.com/thumbnail?id=" + fileId;
+            // Otra opción (más para descargar, pero a veces funciona para mostrar):
+            // return "https://drive.google.com/uc?export=download&id=" + fileId;
+        } else {
+            // Si el link no coincide con el patrón de Drive (ej. ya es una URL directa, o es de otro servicio)
+            System.err.println("Advertencia: El link de imagen no parece ser un link de Google Drive estándar. Se guardará tal cual: " + driveLink);
+            return driveLink; // Devuelve el link original si no se puede transformar
+        }
+    }
     public List<ProductoCardDTO> obtenerCards() {
 
         return productoRepository.findAll()
