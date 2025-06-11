@@ -1,5 +1,7 @@
 package api.examen.parcial.u202123541.controllers;
 
+import api.examen.parcial.u202123541.dtos.ProductoCardDTO;
+import api.examen.parcial.u202123541.dtos.ProductoRegistroDTO;
 import api.examen.parcial.u202123541.entities.Producto;
 import api.examen.parcial.u202123541.services.ProductoService;
 import io.github.classgraph.Resource;
@@ -46,17 +48,17 @@ public class ProductoController {
 
     // Obtener un producto por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerProductoPorId(@PathVariable Long id) {
-        Producto producto = productoService.getProductoById(id);
+    public ResponseEntity<ProductoCardDTO> obtenerProductoPorId(@PathVariable Long id) {
+        ProductoCardDTO producto = productoService.getDetalleCardPorId(id);
         return ResponseEntity.ok(producto);
     }
 
-    // Registrar un nuevo producto
-    @PostMapping("/registrar")
-    public ResponseEntity<Producto> registrarProducto(@RequestBody Producto producto) {
-        Producto productoRegistrado = productoService.save(producto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productoRegistrado);
-    }
+//    // Registrar un nuevo producto
+//    @PostMapping("/registrar")
+//    public ResponseEntity<Producto> registrarProducto(@RequestBody Producto producto) {
+//        Producto productoRegistrado = productoService.save(producto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(productoRegistrado);
+//    }
 
     // Actualizar un producto
     @PutMapping("/actualizar/{id}")
@@ -67,8 +69,20 @@ public class ProductoController {
 
     // Eliminar un producto
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable int id) {
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
         productoService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /* Registrar UNA talla -> devuelve card actualizada */
+    @PostMapping("/registrar")
+    public ResponseEntity<ProductoCardDTO> registrar(@RequestBody ProductoRegistroDTO dto) {
+        return ResponseEntity.ok(productoService.registrar(dto));
+    }
+
+    /* Obtener todas las cards agregadas */
+    @GetMapping("/cards")
+    public ResponseEntity<List<ProductoCardDTO>> obtenerCards() {
+        return ResponseEntity.ok(productoService.obtenerCards());
     }
 }

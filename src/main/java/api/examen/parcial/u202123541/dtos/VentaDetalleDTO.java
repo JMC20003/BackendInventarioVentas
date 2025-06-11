@@ -18,14 +18,12 @@ import java.util.stream.Collectors;
 public class VentaDetalleDTO {
     private Long id;
     private LocalDateTime fechaVenta;
-    private String nombreUsuario; // Campo para el nombre del usuario
-    private List<DetalleVentaProductoResponseDTO> productosVendidos; // Lista de DTOs de los detalles
+    private String nombreUsuario;
+    private List<DetalleVentaProductoResponseDTO> productosVendidos;
 
-    // Constructor vacío (puede ser necesario para la deserialización en algunos casos, si no lo usas, opcional)
     public VentaDetalleDTO() {
     }
 
-    // ¡¡¡ESTE ES EL CONSTRUCTOR QUE NECESITAS AÑADIR O CORREGIR!!!
     public VentaDetalleDTO(Venta venta) {
         this.id = venta.getId();
         this.fechaVenta = venta.getFechaVenta();

@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-
+@Table(name="venta")
 public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +20,16 @@ public class Venta {
     @Column(name = "fecha_venta")
     private LocalDateTime fechaVenta;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "Usuario_id")
+    @JsonIgnore
     private Usuario usuario;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true) // <-- Añade cascade y orphanRemoval
+    @JsonIgnore
     private Set<DetalleVentaProducto> detallesVenta;
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL) // También podrías querer cascada para pagos
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
     private Set<Pago> pagos;
 }

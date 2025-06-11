@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,13 +16,13 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
     private BigDecimal precio;
     private Integer stock;
     private String categoria;
     private String descripcion;
     private String imagen;
+    private String talla;
 
     @OneToMany(mappedBy = "producto")
     @JsonIgnore

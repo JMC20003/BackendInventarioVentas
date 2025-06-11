@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-// Asegúrate de que SOLO tengas esto, sin @EqualsAndHashCode.Include/@Exclude en los campos
+
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +32,11 @@ public class Usuario {
     )
     private Set<Rol> roles;
 
-    @JsonIgnore
+
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
     private Set<Venta> ventas;
 
 //    @JsonIgnore

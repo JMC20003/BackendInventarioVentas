@@ -8,8 +8,8 @@ import java.io.Serializable;
 @Embeddable
 @Getter
 @Setter
-@EqualsAndHashCode // ESENCIAL
-@NoArgsConstructor // ESENCIAL para JPA
+@EqualsAndHashCode
+@NoArgsConstructor
 public class DetalleVentaProductoId implements Serializable {
 
     private Long ventaId;
