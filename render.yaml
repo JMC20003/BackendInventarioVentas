@@ -8,8 +8,8 @@ services:
     dockerfilePath: ./BackendInventarioVentas/Dockerfile
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://dpg-d0ppblbe5dus73e30hg0-a.oregon-postgres.render.com/databaseinventario
+        value: jdbc:postgresql://db-inventario-ventas.cjsm86k8q6wu.sa-east-1.rds.amazonaws.com:5432/dbinventarioventas
       - key: SPRING_DATASOURCE_USERNAME
-        value: databaseinventario_user
+        value: postgres
       - key: SPRING_DATASOURCE_PASSWORD
-        value: TAUdwa1RpNBU2xjgNxjkm7TAP1mPeQER
+        value: Jos300#2025
