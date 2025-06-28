@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Set;
 
-@CrossOrigin(origins = {"https://proyecto5-e5bb9.web.app","http://localhost:4200"})
+@CrossOrigin(origins = {"https://tiendarjsc.site","http://localhost:4200"})
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

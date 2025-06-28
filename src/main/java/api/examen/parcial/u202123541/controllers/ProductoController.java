@@ -22,7 +22,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin(origins = {"https://proyecto5-e5bb9.web.app","http://localhost:4200"})
+@CrossOrigin(origins = {"https://tiendarjsc.site","http://localhost:4200"})
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
