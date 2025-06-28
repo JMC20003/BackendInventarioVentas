@@ -48,31 +48,22 @@ public class VentaServiceImpl implements VentaService {
     @Override
     @Transactional
     public Venta save(RegistroVentaDTO ventaDTO) {
-        // Si tienes el logger descomentado, úsalo aquí:
-        // log.info("Iniciando proceso de guardado de venta para usuarioId: {}", ventaDTO.getUsuarioId());
-
         // 1. Validar que el usuario exista
         Usuario usuario = usuarioRepo.findById(ventaDTO.getUsuarioId())
                 .orElseThrow(() -> {
-                    // Si tienes el logger descomentado, úsalo aquí:
-                    // log.error("Error: Usuario con ID {} no encontrado.", ventaDTO.getUsuarioId());
                     return new RuntimeException("Usuario con ID " + ventaDTO.getUsuarioId() + " no encontrado.");
                 });
-        // log.info("Usuario encontrado: {}", usuario.getNombre());
-
 
         // 2. Crear la Venta (entidad padre)
         Venta venta = new Venta();
         venta.setFechaVenta(LocalDateTime.now()); // Establece la fecha actual
         venta.setUsuario(usuario);
         venta.setDetallesVenta(new HashSet<>()); // Inicializa la colección de detalles (importante)
-        // log.info("Objeto Venta creado.");
 
         // *** PASO CRÍTICO: Guardar la Venta primero para que Hibernate le asigne un ID ***
         // Esto es ESENCIAL para las claves compuestas de los detalles
         venta = ventaRepository.save(venta);
         // log.info("Venta guardada inicialmente con ID: {}. Procesando detalles...", venta.getId());
-
 
         // 3. Procesar cada DetalleVentaProducto (entidades hijas)
         if (ventaDTO.getProductos() == null || ventaDTO.getProductos().isEmpty()) {
@@ -81,29 +72,21 @@ public class VentaServiceImpl implements VentaService {
         }
 
         for (DetalleVentaProductoDTO detalleDTO : ventaDTO.getProductos()) {
-            // log.debug("Procesando producto ID: {} con cantidad: {}", detalleDTO.getProductoId(), detalleDTO.getCantidad());
 
             // Buscar el producto
             Producto producto = productoRepo.findById(detalleDTO.getProductoId())
                     .orElseThrow(() -> {
-                        // log.error("Error: Producto con ID {} no encontrado.", detalleDTO.getProductoId());
                         return new RuntimeException("Producto con ID " + detalleDTO.getProductoId() + " no encontrado.");
                     });
-            // log.debug("Producto encontrado: {}", producto.getNombre());
-
 
             // Validar stock
             if (producto.getStock() < detalleDTO.getCantidad()) {
-                // log.error("Error: Stock insuficiente para el producto '{}' (ID: {}). Stock actual: {}, Cantidad solicitada: {}",
-                //          producto.getNombre(), producto.getId(), producto.getStock(), detalleDTO.getCantidad());
                 throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre() + ". Stock actual: " + producto.getStock() + ", solicitado: " + detalleDTO.getCantidad());
             }
 
             // Actualizar stock del producto (y guardar el producto con el nuevo stock)
             producto.setStock(producto.getStock() - detalleDTO.getCantidad());
             productoRepo.save(producto); // Guarda el producto con el stock actualizado
-            // log.info("Stock actualizado para el producto '{}' a {}.", producto.getNombre(), producto.getStock());
-
 
             // Crear el DetalleVentaProducto
             DetalleVentaProducto detalleVenta = new DetalleVentaProducto();
@@ -114,20 +97,17 @@ public class VentaServiceImpl implements VentaService {
             // *** ESTABLECER LA CLAVE COMPUESTA DetalleVentaProductoId ***
             // Asegúrate que DetalleVentaProductoId tenga el constructor y tipos correctos (Long, Integer)
             detalleVenta.setId(new DetalleVentaProductoId(venta.getId(), producto.getId()));
-            // log.debug("DetalleVentaProductoId creado con ventaId: {} y productoId: {}", venta.getId(), producto.getId());
 
 
             // Añadir el detalle a la colección de la venta.
             // Gracias a CascadeType.ALL en la entidad Venta, estos detalles se guardarán cuando la Venta se guarde.
             venta.getDetallesVenta().add(detalleVenta);
-            // log.debug("DetalleVentaProducto añadido a la colección de la Venta.");
         }
 
         // 4. Guardar la Venta (esto persistirá también los detalles debido a CascadeType.ALL)
         // La primera llamada a save ya insertó la Venta. Esta segunda actualizará la Venta
         // y, crucialmente, persistirá los nuevos DetalleVentaProducto en cascada.
         Venta ventaFinal = ventaRepository.save(venta);
-        // log.info("Venta y todos sus detalles guardados exitosamente. Venta ID final: {}", ventaFinal.getId());
 
         return ventaFinal;
     }
