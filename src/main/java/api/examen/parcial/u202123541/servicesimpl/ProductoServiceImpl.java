@@ -20,7 +20,8 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<Producto> getAllProductos() {
-        return productoRepository.findAll();
+
+        return productoRepository.findByActivoTrue();
     }
 
     @Override
@@ -35,7 +36,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public void deleteById(Long id) {
-        productoRepository.deleteById(id);
+        Producto p = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+        p.setActivo(false);
+        //p.setStock(0);
+        productoRepository.save(p);
     }
 
     @Override
@@ -64,6 +69,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setImagen(dto.getImagen()); // Asigna la URL DIRECTA al producto antes de guardar
         // -------------------------------------------------------------
         producto.setPrecio(dto.getPrecio());
+        producto.setActivo(true);
 
         // Sumamos stock si ya existía, si no, lo seteamos
         int nuevoStock = dto.getStock() == null ? 0 : dto.getStock();

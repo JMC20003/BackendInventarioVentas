@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class RegistroVentaDTO {
+    //private Long id;
     private Long usuarioId;
     private List<DetalleVentaProductoDTO> productos;  // Cambio nombre de 'ventas' a 'ventaDetalles'
 }

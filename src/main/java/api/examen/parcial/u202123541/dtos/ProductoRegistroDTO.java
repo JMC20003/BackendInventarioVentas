@@ -13,4 +13,6 @@ public class ProductoRegistroDTO {
     private String categoria;
     private String descripcion;
     private String imagen;
+    //Para eliminar un producto que se registro en una venta
+    private Boolean activo = true;
 }

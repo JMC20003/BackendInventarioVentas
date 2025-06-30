@@ -5,6 +5,7 @@ import api.examen.parcial.u202123541.dtos.VentaDetalleDTO;
 import api.examen.parcial.u202123541.entities.Venta;
 import api.examen.parcial.u202123541.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,16 @@ public class VentaController {
     }
 
     // Obtener una venta por su ID
+    //@GetMapping("/{id}")
+    //public ResponseEntity<Venta> obtenerVentaPorId(@PathVariable Long id) {
+    //    Venta venta = ventaServicio.obtenerVentaPorId(id);
+    //    return ResponseEntity.ok(venta);
+    //}
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> obtenerVentaPorId(@PathVariable Long id) {
-        Venta venta = ventaServicio.obtenerVentaPorId(id);
-        return ResponseEntity.ok(venta);
+    public ResponseEntity<VentaDetalleDTO> obtenerVentaDetallePorId(@PathVariable Long id) {
+        VentaDetalleDTO dto = ventaServicio.obtenerVentaDetallePorId(id);
+        return ResponseEntity.ok(dto);
     }
-
     // Eliminar un producto
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> eliminarVenta(@PathVariable Long id) {
@@ -54,7 +59,21 @@ public class VentaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PutMapping("/modificar/{id}")
+    public ResponseEntity<VentaDetalleDTO> modificarVenta(@PathVariable Long id, @RequestBody RegistroVentaDTO ventaDTO) {
+        try {
+            Venta nuevaVenta = ventaServicio.modificarVenta(id, ventaDTO);
+            VentaDetalleDTO responseDTO = new VentaDetalleDTO(nuevaVenta);
+            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            // ¡¡¡CAMBIO AQUÍ!!!
+            System.err.println("**************************************************");
+            System.err.println("¡¡¡ERROR CAPTURADO EN VentaController!!!: " + e.getMessage());
+            e.printStackTrace(); // Esto imprimirá la traza de pila completa
+            System.err.println("**************************************************");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
     // Nuevo endpoint para probar el guardado simple
     @GetMapping("/registrar/simple/{usuarioId}")
     public ResponseEntity<VentaDetalleDTO> registrarVentaSimple(@PathVariable Long usuarioId) {
@@ -69,9 +88,5 @@ public class VentaController {
         }
     }
 
-    @GetMapping("/ListarDTO/{id}")
-    public ResponseEntity<VentaDetalleDTO> obtenerVentaDetallePorId(@PathVariable Long id) {
-        VentaDetalleDTO dto = ventaServicio.obtenerVentaDetallePorId(id);
-        return ResponseEntity.ok(dto);
-    }
+
 }

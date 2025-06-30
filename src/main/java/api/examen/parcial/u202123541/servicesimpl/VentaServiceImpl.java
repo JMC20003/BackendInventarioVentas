@@ -74,7 +74,7 @@ public class VentaServiceImpl implements VentaService {
         for (DetalleVentaProductoDTO detalleDTO : ventaDTO.getProductos()) {
 
             // Buscar el producto
-            Producto producto = productoRepo.findById(detalleDTO.getProductoId())
+            Producto producto = productoRepo.findByIdAndActivoTrue(detalleDTO.getProductoId())
                     .orElseThrow(() -> {
                         return new RuntimeException("Producto con ID " + detalleDTO.getProductoId() + " no encontrado.");
                     });
@@ -138,10 +138,59 @@ public class VentaServiceImpl implements VentaService {
         return null;
     }
     public VentaDetalleDTO obtenerVentaDetallePorId(Long id) {
-       return null;
+       Venta venta = ventaRepository.findById(id)
+               .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+        return new VentaDetalleDTO(venta);
     }
     @Override
     public Venta obtenerVentaPorId(Long id) {
         return ventaRepository.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    public Venta modificarVenta(Long id, RegistroVentaDTO ventaDTO) {
+// 1. Buscar la venta existente
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+
+        // 2. Revertir el stock de los productos anteriores
+        for (DetalleVentaProducto detalle : venta.getDetallesVenta()) {
+            Producto producto = detalle.getProducto();
+            producto.setStock(producto.getStock() + detalle.getCantidad()); // Devolver stock
+            productoRepo.save(producto);
+        }
+
+        // 3. Eliminar los detalles antiguos
+        venta.getDetallesVenta().clear(); // gracias a orphanRemoval = true en la entidad Venta
+
+        // 4. Validar el usuario
+        Usuario usuario = usuarioRepo.findById(ventaDTO.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + ventaDTO.getUsuarioId() + " no encontrado"));
+        venta.setUsuario(usuario);
+
+        // 5. Procesar los nuevos productos
+        for (DetalleVentaProductoDTO detalleDTO : ventaDTO.getProductos()) {
+            Producto producto = productoRepo.findByIdAndActivoTrue(detalleDTO.getProductoId())
+                    .orElseThrow(() -> new RuntimeException("Producto con ID " + detalleDTO.getProductoId() + " no encontrado"));
+
+            if (producto.getStock() < detalleDTO.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
+            }
+
+            producto.setStock(producto.getStock() - detalleDTO.getCantidad());
+            productoRepo.save(producto);
+
+            DetalleVentaProducto nuevoDetalle = new DetalleVentaProducto();
+            nuevoDetalle.setCantidad(detalleDTO.getCantidad());
+            nuevoDetalle.setProducto(producto);
+            nuevoDetalle.setVenta(venta);
+            nuevoDetalle.setId(new DetalleVentaProductoId(venta.getId(), producto.getId()));
+
+            venta.getDetallesVenta().add(nuevoDetalle);
+        }
+
+        // 6. Guardar la venta con los nuevos detalles
+        return ventaRepository.save(venta);
     }
 }

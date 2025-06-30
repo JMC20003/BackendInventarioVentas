@@ -23,6 +23,7 @@ public class Producto {
     private String descripcion;
     private String imagen;
     private String talla;
+    private Boolean activo = true;
 
     @OneToMany(mappedBy = "producto")
     @JsonIgnore

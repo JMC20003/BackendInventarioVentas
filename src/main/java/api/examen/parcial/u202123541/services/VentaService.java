@@ -14,6 +14,7 @@ public interface VentaService {
     List<VentaDetalleDTO> getAllVentasDetalle();
     VentaDetalleDTO obtenerVentaDetallePorId(Long id);
     Venta obtenerVentaPorId(Long id);
+    Venta modificarVenta(Long id, RegistroVentaDTO ventaDTO);
     // Nuevo método para guardar una venta simple
     Venta saveSimpleVenta(Long usuarioId);
 }
