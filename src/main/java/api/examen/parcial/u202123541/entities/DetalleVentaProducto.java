@@ -1,11 +1,15 @@
 package api.examen.parcial.u202123541.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "detalleventaproducto")
 public class DetalleVentaProducto {
@@ -16,7 +20,7 @@ public class DetalleVentaProducto {
     @ManyToOne
     @MapsId("ventaId")
     @JoinColumn(name = "Venta_id")
-    @JsonIgnore
+    @JsonBackReference
     private Venta venta;
 
 //    @ManyToOne
@@ -30,8 +34,8 @@ public class DetalleVentaProducto {
     @JsonIgnore
     private Producto producto;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "Usuario_id")
+    @JsonIgnore
     private Usuario usuario;
 }

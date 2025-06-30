@@ -1,6 +1,7 @@
 package api.examen.parcial.u202123541.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,9 +9,12 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
-@Entity
+
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name="venta")
 public class Venta {
     @Id
@@ -27,9 +31,10 @@ public class Venta {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true) // <-- Añade cascade y orphanRemoval
-    @JsonIgnore
+    @JsonManagedReference
     private Set<DetalleVentaProducto> detallesVenta;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Pago> pagos;
 }

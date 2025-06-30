@@ -1,10 +1,18 @@
-# flyctl launch added from .idea\.gitignore
-# Default ignored files
-.idea\shelf
-.idea\workspace.xml
-# Editor-based HTTP Client requests
-.idea\httpRequests
-# Datasource local storage ignored files
-.idea\dataSources
-.idea\dataSources.local.xml
-fly.toml
+# JetBrains / IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+
+# Archivos del sistema
+*.log
+*.class
+*.swp
+.DS_Store
+Thumbs.db
+
+# Otros innecesarios
+*.env
