@@ -21,7 +21,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public List<Producto> getAllProductos() {
 
-        return productoRepository.findByActivoTrue();
+        return productoRepository.obtenerProductosDisponibles();
     }
 
     @Override
@@ -44,9 +44,23 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public Producto actualizarProducto(Long id, Producto producto) {
-        //por ahora no vamos a modificar
-        return null;
+    public ProductoCardDTO  actualizarProducto(Long id, ProductoRegistroDTO dto) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+
+        producto.setNombre(dto.getNombre());
+        producto.setTalla(dto.getTalla());
+        producto.setCategoria(dto.getCategoria());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setImagen(dto.getImagen());
+        producto.setPrecio(dto.getPrecio());
+
+        if (dto.getStock() != null) {
+            producto.setStock(dto.getStock()); // Aquí se reemplaza, no se suma
+        }
+
+        productoRepository.save(producto);
+        return construirCardPorNombre(dto.getNombre());
     }
     /* =================================================
      *  1) Registrar o actualizar UNA talla
@@ -62,12 +76,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setTalla(dto.getTalla());
         producto.setCategoria(dto.getCategoria());
         producto.setDescripcion(dto.getDescripcion());
-        // --- ¡AQUÍ ES DONDE TRANSFORMAMOS LA URL DE GOOGLE DRIVE! ---
-        //String driveLink = dto.getImagen(); // Obtén el link de Drive del DTO
-        //String directImageUrl = transformGoogleDriveLink(driveLink); // Transfórmalo
-        //POR AHORA VAMOS A DEJAR CON IMAGEN DE POOSIM
-        producto.setImagen(dto.getImagen()); // Asigna la URL DIRECTA al producto antes de guardar
-        // -------------------------------------------------------------
+        producto.setImagen(dto.getImagen());
         producto.setPrecio(dto.getPrecio());
         producto.setActivo(true);
 
@@ -174,5 +183,20 @@ public class ProductoServiceImpl implements ProductoService {
         );
 
         return dto;
+    }
+
+
+
+
+
+    //----------------REPORTES-------------------
+    @Override
+    public List<Producto> obtenerProductosConStockBajo(int umbral) {
+        return productoRepository.findByStockLessThanEqualAndActivoTrue(umbral);
+    }
+
+    @Override
+    public List<Producto> obtenerProductosConMayorStock() {
+        return productoRepository.findByActivoTrueOrderByStockDesc();
     }
 }

@@ -1,9 +1,6 @@
 package api.examen.parcial.u202123541.servicesimpl;
 
-import api.examen.parcial.u202123541.dtos.DetalleVentaProductoDTO;
-import api.examen.parcial.u202123541.dtos.PagoDTO;
-import api.examen.parcial.u202123541.dtos.RegistroVentaDTO;
-import api.examen.parcial.u202123541.dtos.VentaDetalleDTO;
+import api.examen.parcial.u202123541.dtos.*;
 import api.examen.parcial.u202123541.entities.*;
 import api.examen.parcial.u202123541.repositories.*;
 import api.examen.parcial.u202123541.services.VentaService;
@@ -11,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,19 +56,22 @@ public class VentaServiceImpl implements VentaService {
         venta.setUsuario(usuario);
         venta.setDetallesVenta(new HashSet<>()); // Inicializa la colección de detalles (importante)
 
-        // *** PASO CRÍTICO: Guardar la Venta primero para que Hibernate le asigne un ID ***
-        // Esto es ESENCIAL para las claves compuestas de los detalles
+        //Calcular el subtotal
+        BigDecimal subtotal = ventaDTO.getProductos().stream()
+                .map(detalleDTO -> {
+                    Producto producto = productoRepo.findById(detalleDTO.getProductoId()).orElseThrow();
+                    return producto.getPrecio().multiply(BigDecimal.valueOf(detalleDTO.getCantidad()));
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        venta.setSubtotal(subtotal);
         venta = ventaRepository.save(venta);
-        // log.info("Venta guardada inicialmente con ID: {}. Procesando detalles...", venta.getId());
 
         // 3. Procesar cada DetalleVentaProducto (entidades hijas)
         if (ventaDTO.getProductos() == null || ventaDTO.getProductos().isEmpty()) {
-            // log.warn("Advertencia: Intento de registrar venta sin productos.");
             throw new RuntimeException("La venta debe contener al menos un producto.");
         }
 
         for (DetalleVentaProductoDTO detalleDTO : ventaDTO.getProductos()) {
-
             // Buscar el producto
             Producto producto = productoRepo.findByIdAndActivoTrue(detalleDTO.getProductoId())
                     .orElseThrow(() -> {
@@ -86,6 +85,10 @@ public class VentaServiceImpl implements VentaService {
 
             // Actualizar stock del producto (y guardar el producto con el nuevo stock)
             producto.setStock(producto.getStock() - detalleDTO.getCantidad());
+            // Desactivar si ya no hay stock
+            if (producto.getStock() <= 0) {
+                producto.setActivo(false);
+            }
             productoRepo.save(producto); // Guarda el producto con el stock actualizado
 
             // Crear el DetalleVentaProducto
@@ -94,56 +97,28 @@ public class VentaServiceImpl implements VentaService {
             detalleVenta.setProducto(producto); // Asigna el producto
             detalleVenta.setVenta(venta);       // Asigna la venta (¡que ya tiene ID!)
 
-            // *** ESTABLECER LA CLAVE COMPUESTA DetalleVentaProductoId ***
-            // Asegúrate que DetalleVentaProductoId tenga el constructor y tipos correctos (Long, Integer)
+            // ESTABLECER LA CLAVE COMPUESTA DetalleVentaProductoId
             detalleVenta.setId(new DetalleVentaProductoId(venta.getId(), producto.getId()));
 
-
-            // Añadir el detalle a la colección de la venta.
             // Gracias a CascadeType.ALL en la entidad Venta, estos detalles se guardarán cuando la Venta se guarde.
             venta.getDetallesVenta().add(detalleVenta);
         }
 
         // 4. Guardar la Venta (esto persistirá también los detalles debido a CascadeType.ALL)
-        // La primera llamada a save ya insertó la Venta. Esta segunda actualizará la Venta
-        // y, crucialmente, persistirá los nuevos DetalleVentaProducto en cascada.
-        Venta ventaFinal = ventaRepository.save(venta);
-
-        return ventaFinal;
-    }
-    @Override
-    @Transactional // Asegúrate de que tenga transacción
-    public Venta saveSimpleVenta(Long usuarioId) {
-        // 1. Validar que el usuario exista
-        Usuario usuario = usuarioRepo.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuario con ID " + usuarioId + " no encontrado para venta simple."));
-
-        // 2. Crear la Venta
-        Venta venta = new Venta();
-        venta.setFechaVenta(LocalDateTime.now());
-        venta.setUsuario(usuario);
-        venta.setDetallesVenta(new HashSet<>()); // Inicializa, aunque no agregaremos nada
-
-        // 3. Guardar y retornar la Venta
         return ventaRepository.save(venta);
     }
 
     @Override
-    public void deleteById(Long id) {
-        ventaRepository.deleteById(id);
-    }
-
-    @Override
-    public RegistroVentaDTO registrarVentaCompleta(RegistroVentaDTO registro) {
-        return null;
-    }
     public VentaDetalleDTO obtenerVentaDetallePorId(Long id) {
        Venta venta = ventaRepository.findById(id)
                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
         return new VentaDetalleDTO(venta);
     }
+    //esto esta sobrando creo
     @Override
     public Venta obtenerVentaPorId(Long id) {
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta con ID " + id + " no encontrada"));
         return ventaRepository.findById(id).get();
     }
 
@@ -158,9 +133,14 @@ public class VentaServiceImpl implements VentaService {
         for (DetalleVentaProducto detalle : venta.getDetallesVenta()) {
             Producto producto = detalle.getProducto();
             producto.setStock(producto.getStock() + detalle.getCantidad()); // Devolver stock
+            // Reactivar si el stock > 0
+            if (producto.getStock() > 0) {
+                producto.setActivo(true);
+            }
             productoRepo.save(producto);
         }
 
+        BigDecimal subtotal = BigDecimal.ZERO;
         // 3. Eliminar los detalles antiguos
         venta.getDetallesVenta().clear(); // gracias a orphanRemoval = true en la entidad Venta
 
@@ -178,7 +158,14 @@ public class VentaServiceImpl implements VentaService {
                 throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre());
             }
 
+
             producto.setStock(producto.getStock() - detalleDTO.getCantidad());
+
+            // Desactivar si ya no queda stock
+            if (producto.getStock() <= 0) {
+                producto.setActivo(false);
+            }
+
             productoRepo.save(producto);
 
             DetalleVentaProducto nuevoDetalle = new DetalleVentaProducto();
@@ -187,10 +174,61 @@ public class VentaServiceImpl implements VentaService {
             nuevoDetalle.setVenta(venta);
             nuevoDetalle.setId(new DetalleVentaProductoId(venta.getId(), producto.getId()));
 
+            subtotal = subtotal.add(producto.getPrecio().multiply(BigDecimal.valueOf(detalleDTO.getCantidad())));
+
             venta.getDetallesVenta().add(nuevoDetalle);
         }
-
+        venta.setSubtotal(subtotal);
         // 6. Guardar la venta con los nuevos detalles
         return ventaRepository.save(venta);
     }
+    @Override
+    public void deleteById(Long id) {
+        ventaRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarVentaDevolucion(Long id) {
+        // 1. Buscar la venta
+        Venta venta = ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+
+        // 2. Devolver el stock de los productos
+        for (DetalleVentaProducto detalle : venta.getDetallesVenta()) {
+            Producto producto = detalle.getProducto();
+
+            // Sumar stock
+            producto.setStock(producto.getStock() + detalle.getCantidad());
+
+            // Reactivar si stock > 0
+            if (producto.getStock() > 0) {
+                producto.setActivo(true);
+            }
+
+            productoRepo.save(producto);
+        }
+
+        // 3. Eliminar la venta
+        ventaRepository.delete(venta);
+    }
+
+    //-----------------------Reportes---------------------------
+    @Override
+    public List<VentaPorMesDTO> obtenerVentasPorMes() {
+        return ventaRepository.obtenerVentasPorMes();
+    }
+
+    @Override
+    public List<ProductoRankingDTO> obtenerProductosMasVendidos() {
+        return ventaRepository.obtenerProductosMasVendidos();
+    }
+    @Override
+    public VentaPorMesDTO obtenerMesConMasVentas() {
+        return ventaRepository.obtenerMesConMasVentas()
+                .stream()
+                .findFirst()
+                .orElse(null);
+    }
+
 }

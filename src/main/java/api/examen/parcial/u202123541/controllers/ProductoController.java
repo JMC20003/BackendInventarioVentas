@@ -61,9 +61,9 @@ public class ProductoController {
 //    }
 
     // Actualizar un producto
-    @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Producto> actualizarProducto(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto productoActualizado = productoService.actualizarProducto(id, producto);
+    @PutMapping("/modificar/{id}")
+    public ResponseEntity<ProductoCardDTO> actualizarProducto(@PathVariable Long id, @RequestBody ProductoRegistroDTO dto) {
+        ProductoCardDTO productoActualizado = productoService.actualizarProducto(id, dto);
         return ResponseEntity.ok(productoActualizado);
     }
 
@@ -86,5 +86,15 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.obtenerCards());
     }
 
+    //---------------REPORTES---------------------
+    @GetMapping("/stock-bajo")
+    public ResponseEntity<List<Producto>> productosConStockBajo(
+            @RequestParam(defaultValue = "5") int umbral) {
+        return ResponseEntity.ok(productoService.obtenerProductosConStockBajo(umbral));
+    }
 
+    @GetMapping("/mayor-stock")
+    public ResponseEntity<List<Producto>> productosConMayorStock() {
+        return ResponseEntity.ok(productoService.obtenerProductosConMayorStock());
+    }
 }

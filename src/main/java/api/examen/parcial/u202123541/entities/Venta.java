@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -24,6 +25,8 @@ public class Venta {
     @Column(name = "fecha_venta")
     private LocalDateTime fechaVenta;
 
+    @Column(name = "subtotal", precision = 10, scale = 2)
+    private BigDecimal subtotal;
 
     @ManyToOne
     @JoinColumn(name = "Usuario_id")

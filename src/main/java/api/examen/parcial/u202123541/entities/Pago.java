@@ -3,19 +3,22 @@ package api.examen.parcial.u202123541.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "Pago")
 public class Pago {
     @Id
-    private int id;
-    private double monto;
-    private String metodo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private BigDecimal total;
+    private String metodo;
+    private BigDecimal descuento;
     @Column(name = "fecha_pago")
-    private Date fechaPago;
+    private LocalDateTime fechaPago;
 
     @ManyToOne
     @JoinColumn(name = "Venta_id")

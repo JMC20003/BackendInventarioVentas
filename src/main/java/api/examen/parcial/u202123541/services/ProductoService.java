@@ -10,11 +10,13 @@ import java.util.List;
 public interface ProductoService {
     List<Producto> getAllProductos();
     Producto getProductoById(Long id);
-//    Producto save(Producto producto);
     void deleteById(Long id);
-    Producto actualizarProducto(Long id, Producto producto);
-
+    ProductoCardDTO actualizarProducto(Long id, ProductoRegistroDTO producto);
     public ProductoCardDTO registrar(ProductoRegistroDTO dto);
     public List<ProductoCardDTO> obtenerCards();
     public ProductoCardDTO getDetalleCardPorId(Long id);
+
+    //REPORTES
+    List<Producto> obtenerProductosConStockBajo(int umbral);
+    List<Producto> obtenerProductosConMayorStock();
 }

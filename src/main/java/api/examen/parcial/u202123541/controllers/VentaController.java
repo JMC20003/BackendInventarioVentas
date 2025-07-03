@@ -1,7 +1,9 @@
 package api.examen.parcial.u202123541.controllers;
 
+import api.examen.parcial.u202123541.dtos.ProductoRankingDTO;
 import api.examen.parcial.u202123541.dtos.RegistroVentaDTO;
 import api.examen.parcial.u202123541.dtos.VentaDetalleDTO;
+import api.examen.parcial.u202123541.dtos.VentaPorMesDTO;
 import api.examen.parcial.u202123541.entities.Venta;
 import api.examen.parcial.u202123541.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,19 +76,26 @@ public class VentaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    // Nuevo endpoint para probar el guardado simple
-    @GetMapping("/registrar/simple/{usuarioId}")
-    public ResponseEntity<VentaDetalleDTO> registrarVentaSimple(@PathVariable Long usuarioId) {
-        try {
-            Venta nuevaVenta = ventaServicio.saveSimpleVenta(usuarioId);
-            // Mapea la entidad Venta a tu DTO de respuesta
-            VentaDetalleDTO responseDTO = new VentaDetalleDTO(nuevaVenta);
-            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            System.err.println("Error al registrar venta simple: " + e.getMessage()); // Log simple si no hay logger
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    //ELIMINAR EN CASO DE DEVOLUCION DEL PRODUCTO
+    @DeleteMapping("/devolucion/{id}")
+    public ResponseEntity<Void> eliminarVentaDevolucion(@PathVariable Long id) {
+        ventaServicio.eliminarVentaDevolucion(id);
+        return ResponseEntity.noContent().build();
     }
 
+    //------------------------REPORTES------------------------
+    @GetMapping("/ventas-mensuales")
+    public List<VentaPorMesDTO> getVentasPorMes() {
+        return ventaServicio.obtenerVentasPorMes();
+    }
 
+    @GetMapping("/productos-mas-vendidos")
+    public List<ProductoRankingDTO> getProductosMasVendidos() {
+        return ventaServicio.obtenerProductosMasVendidos();
+    }
+
+    @GetMapping("/mes-con-mas-ventas")
+    public VentaPorMesDTO getMesConMasVentas() {
+        return ventaServicio.obtenerMesConMasVentas();
+    }
 }
