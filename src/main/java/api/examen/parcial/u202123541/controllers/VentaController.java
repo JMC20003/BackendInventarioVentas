@@ -7,14 +7,13 @@ import api.examen.parcial.u202123541.dtos.VentaPorMesDTO;
 import api.examen.parcial.u202123541.entities.Venta;
 import api.examen.parcial.u202123541.services.VentaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"https://proyecto5-e5bb9.web.app","http://localhost:4200"})
+@CrossOrigin(origins = {"https://tiendarjsc.site","http://localhost:4200","https://backoffice.tiendarjsc.site"})
 @RestController
 @RequestMapping("/api/ventas")
 public class VentaController {

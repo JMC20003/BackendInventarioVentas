@@ -6,11 +6,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-public class ProductoCardDTO {
+public class ProductoDTO {
+    private Long id;
     private String nombre;
+    private BigDecimal precio;
+    private String categoria;
     private String descripcion;
     private String imagen;
-    private BigDecimal precio;   // asumimos mismo precio
-    private List<String> tallas; // únicas
-    private Integer stockTotal;  // suma de stock
+    private List<TallaStockDTO> tallas;
 }

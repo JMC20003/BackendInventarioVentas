@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 public class DetalleVentaProductoDTO {
     private Long productoId;
+    private String talla; // 👈 talla vendida
     private int cantidad;
 }

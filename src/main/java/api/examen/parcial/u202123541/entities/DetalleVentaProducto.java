@@ -16,7 +16,9 @@ public class DetalleVentaProducto {
     @EmbeddedId
     private DetalleVentaProductoId id;
 
+    private String talla; // se vende una talla específica
     private int cantidad;
+
     @ManyToOne
     @MapsId("ventaId")
     @JoinColumn(name = "Venta_id")

@@ -8,6 +8,7 @@ import api.examen.parcial.u202123541.entities.Usuario;
 import api.examen.parcial.u202123541.repositories.RolRepository;
 import api.examen.parcial.u202123541.repositories.UsuarioRepository;
 import api.examen.parcial.u202123541.security.JwtUtilService;
+import api.examen.parcial.u202123541.servicesimpl.UserDetailsImpl;
 import api.examen.parcial.u202123541.servicesimpl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"https://tiendarjsc.site","http://localhost:4200"})
+@CrossOrigin(origins = {"https://tiendarjsc.site","http://127.0.0.1:8081","https://backoffice.tiendarjsc.site"})
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -45,7 +49,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -54,16 +58,32 @@ public class AuthController {
                     )
             );
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
+            // Aquí casteamos al tipo personalizado que creamos antes
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+            // Generar token
             String token = jwtUtil.generateToken(userDetails);
 
-            return ResponseEntity.ok(new AuthResponse(token));
+            // Obtener roles
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+
+            // Construir la respuesta
+            AuthResponse response = new AuthResponse(
+                    token,
+                    userDetails.getId(),         // ID del usuario
+                    userDetails.getUsername(),   // Email
+                    roles                         // Lista de roles
+            );
+
+            return ResponseEntity.ok(response);
+
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(401).body("Credenciales inválidas");
+            return ResponseEntity.status(401).body(null); // o usa un mensaje con otro DTO
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error interno del servidor");
+            return ResponseEntity.status(500).body(null);
         }
     }
 
